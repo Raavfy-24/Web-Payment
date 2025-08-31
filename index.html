@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Mudah</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Pilih Metode Pembayaran</h1>
+
+        <div class="payment-options">
+            <div class="payment-method">
+                <img src="dana.png" alt="DANA" class="payment-logo">
+                <p>DANA: 0886282627</p>
+            </div>
+
+            <div class="payment-method">
+                <img src="gopay.png" alt="GoPay" class="payment-logo">
+                <p>GoPay: 82962829928</p>
+            </div>
+
+            <div class="payment-method">
+                <img src="ovo.png" alt="OVO" class="payment-logo">
+                <p>OVO: 92829290010</p>
+            </div>
+
+            <div class="payment-method">
+                <img src="qris.png" alt="QRIS" class="payment-logo">
+                <p>Scan QRIS:</p>
+                <img src="link_foto_qris_anda.jpg" alt="QRIS Code" class="qris-image">
+            </div>
+        </div>
+
+        <p class="disclaimer">Silakan lakukan pembayaran dan kirim bukti transfer ke [Nomor WhatsApp/Email Anda].</p>
+    </div>
+</body>
+</html>
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.payment-method {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+    transition: all 0.3s ease; /* Efek smooth */
+}
+
+.payment-method:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px); /* Efek smooth saat hover */
+}
+
+.payment-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain; /* Menjaga aspek rasio gambar */
+}
+
+.qris-image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.disclaimer {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .payment-method {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .payment-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .qris-image {
+        width: 120px;
+        height: 120px;
+    }
+}
