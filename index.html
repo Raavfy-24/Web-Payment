@@ -3,131 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran Mudah</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Payment Gateway - DANA, Gopay, OVO, QRIS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .header {
+            background: #4e54c8;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .payment-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 30px;
+        }
+        
+        .payment-method {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        
+        .payment-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .payment-title i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .dana { color: #0080ff; }
+        .gopay { color: #00a650; }
+        .ovo { color: #4c2a86; }
+        .qris { color: #ff6600; }
+        
+        .payment-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .payment-content:hover {
+            transform: translateY(-5px);
+        }
+        
+        .payment-info {
+            flex: 1;
+            min-width: 250px;
+            padding: 10px;
+        }
+        
+        .payment-info h3 {
+            font-size: 16px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+        
+        .payment-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .payment-number:hover {
+            background: #f0f0f0;
+        }
+        
+        .payment-number i {
+            margin-left: 10px;
+            font-size: 16px;
+            color: #888;
+        }
+        
+        .payment-image {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .qris-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f9f9f9;
+        }
+        
+        .qris-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .instructions {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #888;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .payment-content {
+                flex-direction: column;
+            }
+            
+            .payment-info, .payment-image {
+                width: 100%;
+            }
+            
+            .payment-image {
+                margin-top: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Pilih Metode Pembayaran</h1>
-
-        <div class="payment-options">
+        <div class="header">
+            <h1>Payment Gateway</h1>
+            <p>Pilih metode pembayaran yang Anda inginkan</p>
+        </div>
+        
+        <div class="payment-container">
             <div class="payment-method">
-                <img src="dana.png" alt="DANA" class="payment-logo">
-                <p>DANA: 0886282627</p>
+                <div class="payment-title">
+                    <i class="fas fa-wallet dana"></i>
+                    <h2>DANA</h2>
+                </div>
+                <div class="payment-content">
+                    <div class="payment-info">
+                        <h3>Nomor Telepon DANA</h3>
+                        <div class="payment-number" onclick="copyToClipboard('085795269956', 'DANA')">
+                            085795269956 <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="instructions">
+                            <p>1. Salin nomor DANA di atas</p>
+                            <p>2. Buka aplikasi DANA dan transfer ke nomor tersebut</p>
+                            <p>3. Konfirmasi pembayaran Anda</p>
+                        </div>
+                    </div>
+                    <div class="payment-image">
+                        <div class="qris-image">
+                            <i class="fas fa-mobile-alt" style="font-size: 60px; color: #0080ff;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-
+            
             <div class="payment-method">
-                <img src="gopay.png" alt="GoPay" class="payment-logo">
-                <p>GoPay: 82962829928</p>
+                <div class="payment-title">
+                    <i class="fab fa-google-wallet gopay"></i>
+                    <h2>Gopay</h2>
+                </div>
+                <div class="payment-content">
+                    <div class="payment-info">
+                        <h3>Nomor Telepon Gopay</h3>
+                        <div class="payment-number" onclick="copyToClipboard('085795269956', 'Gopay')">
+                            085795269956 <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="instructions">
+                            <p>1. Salin nomor Gopay di atas</p>
+                            <p>2. Buka aplikasi Gojek dan transfer ke nomor tersebut</p>
+                            <p>3. Konfirmasi pembayaran Anda</p>
+                        </div>
+                    </div>
+                    <div class="payment-image">
+                        <div class="qris-image">
+                            <i class="fas fa-wallet" style="font-size: 60px; color: #00a650;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-
+            
             <div class="payment-method">
-                <img src="ovo.png" alt="OVO" class="payment-logo">
-                <p>OVO: 92829290010</p>
+                <div class="payment-title">
+                    <i class="fas fa-credit-card ovo"></i>
+                    <h2>OVO</h2>
+                </div>
+                <div class="payment-content">
+                    <div class="payment-info">
+                        <h3>Nomor Telepon OVO</h3>
+                        <div class="payment-number" onclick="copyToClipboard('085795269956', 'OVO')">
+                            085795269956 <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="instructions">
+                            <p>1. Salin nomor OVO di atas</p>
+                            <p>2. Buka aplikasi OVO dan transfer ke nomor tersebut</p>
+                            <p>3. Konfirmasi pembayaran Anda</p>
+                        </div>
+                    </div>
+                    <div class="payment-image">
+                        <div class="qris-image">
+                            <i class="fas fa-credit-card" style="font-size: 60px; color: #4c2a86;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-
+            
             <div class="payment-method">
-                <img src="qris.png" alt="QRIS" class="payment-logo">
-                <p>Scan QRIS:</p>
-                <img src="link_foto_qris_anda.jpg" alt="QRIS Code" class="qris-image">
+                <div class="payment-title">
+                    <i class="fas fa-qrcode qris"></i>
+                    <h2>QRIS</h2>
+                </div>
+                <div class="payment-content">
+                    <div class="payment-info">
+                        <h3>Scan QR Code</h3>
+                        <div class="instructions">
+                            <p>1. Buka aplikasi e-wallet atau mobile banking Anda</p>
+                            <p>2. Pilih fitur scan QRIS</p>
+                            <p>3. Arahkan kamera ke QR code di samping</p>
+                            <p>4. Masukkan nominal dan konfirmasi pembayaran</p>
+                        </div>
+                    </div>
+                    <div class="payment-image">
+                        <div class="qris-image">
+                            <img src="https://files.catbox.moe/oi12il.bin" alt="QRIS Payment" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://payment.example.com/085795269956'">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <p class="disclaimer">Silakan lakukan pembayaran dan kirim bukti transfer ke [Nomor WhatsApp/Email Anda].</p>
+        
+        <div class="footer">
+            <p>&copy; 2023 Payment Gateway. Semua hak dilindungi.</p>
+        </div>
     </div>
+    
+    <div class="notification" id="notification">
+        Nomor berhasil disalin ke clipboard!
+    </div>
+
+    <script>
+        function copyToClipboard(text, method) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const notification = document.getElementById('notification');
+            notification.textContent = `Nomor ${method} berhasil disalin!`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Fallback untuk gambar QRIS jika link tidak bekerja
+        document.querySelector('.qris-image img').onerror = function() {
+            this.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://payment.example.com/085795269956';
+        };
+    </script>
 </body>
 </html>
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    color: #333;
-}
-
-.container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 600px;
-    text-align: center;
-}
-
-h1 {
-    margin-bottom: 20px;
-    color: #2c3e50;
-}
-
-.payment-options {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.payment-method {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-align: left;
-    transition: all 0.3s ease; /* Efek smooth */
-}
-
-.payment-method:hover {
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    transform: translateY(-3px); /* Efek smooth saat hover */
-}
-
-.payment-logo {
-    width: 50px;
-    height: 50px;
-    object-fit: contain; /* Menjaga aspek rasio gambar */
-}
-
-.qris-image {
-    width: 150px;
-    height: 150px;
-    object-fit: contain;
-    border: 1px solid #eee;
-    border-radius: 5px;
-}
-
-.disclaimer {
-    margin-top: 30px;
-    font-size: 0.9em;
-    color: #777;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-    .container {
-        width: 95%;
-        padding: 20px;
-    }
-
-    .payment-method {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .payment-logo {
-        width: 40px;
-        height: 40px;
-    }
-
-    .qris-image {
-        width: 120px;
-        height: 120px;
-    }
-}
