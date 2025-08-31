@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Gateway - DANA, Gopay, OVO, QRIS</title>
+    <title>Payment Gateway</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -23,199 +23,214 @@
         }
         
         .container {
-            max-width: 900px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            max-width: 900px;
+            background: white;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
-            animation: fadeIn 0.8s ease;
+            display: flex;
+            flex-direction: column;
         }
         
         .header {
-            background: #4e54c8;
+            background: #6a11cb;
             color: white;
+            padding: 20px;
             text-align: center;
-            padding: 25px;
-            position: relative;
         }
         
-        .header h1 {
-            font-size: 28px;
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
             margin-bottom: 10px;
         }
         
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        
-        .payment-container {
+        .main {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+        }
+        
+        .left-panel {
+            flex: 1;
+            min-width: 300px;
             padding: 30px;
+            background: #f9f9f9;
+        }
+        
+        .right-panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            background: white;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #6a11cb;
+            padding-bottom: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+        }
+        
+        .card-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .card-group .form-group {
+            flex: 1;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
         .payment-method {
-            width: 100%;
-            margin-bottom: 30px;
-        }
-        
-        .payment-title {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 20px;
-            font-weight: 600;
-        }
-        
-        .payment-title i {
-            margin-right: 10px;
-            font-size: 24px;
-        }
-        
-        .dana { color: #0080ff; }
-        .gopay { color: #00a650; }
-        .ovo { color: #4c2a86; }
-        .qris { color: #ff6600; }
-        
-        .payment-content {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            transition: transform 0.3s ease;
-        }
-        
-        .payment-content:hover {
-            transform: translateY(-5px);
-        }
-        
-        .payment-info {
             flex: 1;
-            min-width: 250px;
-            padding: 10px;
-        }
-        
-        .payment-info h3 {
-            font-size: 16px;
-            color: #777;
-            margin-bottom: 5px;
-        }
-        
-        .payment-number {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            padding: 12px;
-            background: #f9f9f9;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #ddd;
             border-radius: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
         
-        .payment-number:hover {
-            background: #f0f0f0;
+        .payment-method:hover {
+            border-color: #6a11cb;
         }
         
-        .payment-number i {
-            margin-left: 10px;
-            font-size: 16px;
-            color: #888;
+        .payment-method.active {
+            border-color: #6a11cb;
+            background: rgba(106, 17, 203, 0.1);
         }
         
-        .payment-image {
-            flex: 1;
-            min-width: 250px;
+        .payment-method i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #6a11cb;
+        }
+        
+        .product {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
         }
         
-        .qris-image {
-            width: 200px;
-            height: 200px;
+        .product-image {
+            width: 80px;
+            height: 80px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f9f9f9;
+            margin-right: 15px;
         }
         
-        .qris-image img {
+        .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        .instructions {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #888;
-            line-height: 1.5;
+        .product-info {
+            flex: 1;
         }
         
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            color: #666;
-            font-size: 14px;
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 5px;
         }
         
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: #4CAF50;
+        .product-price {
+            color: #6a11cb;
+            font-weight: bold;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #6a11cb;
             color: white;
+            border: none;
             border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn:hover {
+            background: #2575fc;
+            transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transform: translateX(100%);
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            z-index: 1000;
         }
         
-        .notification.show {
-            transform: translateX(0);
-            opacity: 1;
+        .secure {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            font-size: 14px;
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .secure i {
+            color: #6a11cb;
+            margin-right: 5px;
         }
         
         @media (max-width: 768px) {
-            .payment-content {
+            .main {
                 flex-direction: column;
             }
             
-            .payment-info, .payment-image {
+            .left-panel, .right-panel {
                 width: 100%;
-            }
-            
-            .payment-image {
-                margin-top: 20px;
             }
         }
     </style>
@@ -223,141 +238,169 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Payment Gateway</h1>
-            <p>Pilih metode pembayaran yang Anda inginkan</p>
+            <div class="logo">Payment Gateway</div>
+            <p>Lakukan pembayaran dengan aman dan nyaman</p>
         </div>
         
-        <div class="payment-container">
-            <div class="payment-method">
-                <div class="payment-title">
-                    <i class="fas fa-wallet dana"></i>
-                    <h2>DANA</h2>
-                </div>
-                <div class="payment-content">
-                    <div class="payment-info">
-                        <h3>Nomor Telepon DANA</h3>
-                        <div class="payment-number" onclick="copyToClipboard('085795269956', 'DANA')">
-                            085795269956 <i class="fas fa-copy"></i>
-                        </div>
-                        <div class="instructions">
-                            <p>1. Salin nomor DANA di atas</p>
-                            <p>2. Buka aplikasi DANA dan transfer ke nomor tersebut</p>
-                            <p>3. Konfirmasi pembayaran Anda</p>
-                        </div>
+        <div class="main">
+            <div class="left-panel">
+                <h2 class="section-title">Informasi Pembayaran</h2>
+                
+                <div class="payment-methods">
+                    <div class="payment-method active" id="credit-card">
+                        <i class="fa fa-credit-card"></i>
+                        <div>Kartu Kredit</div>
                     </div>
-                    <div class="payment-image">
-                        <div class="qris-image">
-                            <i class="fas fa-mobile-alt" style="font-size: 60px; color: #0080ff;"></i>
-                        </div>
+                    <div class="payment-method" id="bank-transfer">
+                        <i class="fa fa-building"></i>
+                        <div>Transfer Bank</div>
+                    </div>
+                    <div class="payment-method" id="e-wallet">
+                        <i class="fa fa-mobile-alt"></i>
+                        <div>E-Wallet</div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="payment-method">
-                <div class="payment-title">
-                    <i class="fab fa-google-wallet gopay"></i>
-                    <h2>Gopay</h2>
+                
+                <div class="form-group">
+                    <label for="card-number">Nomor Kartu</label>
+                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
                 </div>
-                <div class="payment-content">
-                    <div class="payment-info">
-                        <h3>Nomor Telepon Gopay</h3>
-                        <div class="payment-number" onclick="copyToClipboard('085795269956', 'Gopay')">
-                            085795269956 <i class="fas fa-copy"></i>
-                        </div>
-                        <div class="instructions">
-                            <p>1. Salin nomor Gopay di atas</p>
-                            <p>2. Buka aplikasi Gojek dan transfer ke nomor tersebut</p>
-                            <p>3. Konfirmasi pembayaran Anda</p>
-                        </div>
+                
+                <div class="card-group">
+                    <div class="form-group">
+                        <label for="expiry">Tanggal Kadaluarsa</label>
+                        <input type="text" id="expiry" placeholder="MM/YY">
                     </div>
-                    <div class="payment-image">
-                        <div class="qris-image">
-                            <i class="fas fa-wallet" style="font-size: 60px; color: #00a650;"></i>
-                        </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="123">
                     </div>
                 </div>
-            </div>
-            
-            <div class="payment-method">
-                <div class="payment-title">
-                    <i class="fas fa-credit-card ovo"></i>
-                    <h2>OVO</h2>
+                
+                <div class="form-group">
+                    <label for="name">Nama Pemegang Kartu</label>
+                    <input type="text" id="name" placeholder="Nama Lengkap">
                 </div>
-                <div class="payment-content">
-                    <div class="payment-info">
-                        <h3>Nomor Telepon OVO</h3>
-                        <div class="payment-number" onclick="copyToClipboard('085795269956', 'OVO')">
-                            085795269956 <i class="fas fa-copy"></i>
-                        </div>
-                        <div class="instructions">
-                            <p>1. Salin nomor OVO di atas</p>
-                            <p>2. Buka aplikasi OVO dan transfer ke nomor tersebut</p>
-                            <p>3. Konfirmasi pembayaran Anda</p>
-                        </div>
-                    </div>
-                    <div class="payment-image">
-                        <div class="qris-image">
-                            <i class="fas fa-credit-card" style="font-size: 60px; color: #4c2a86;"></i>
-                        </div>
-                    </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="email@contoh.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Nomor Telepon</label>
+                    <input type="tel" id="phone" placeholder="08xx xxxx xxxx">
+                </div>
+                
+                <button class="btn" id="pay-button">Bayar Sekarang</button>
+                
+                <div class="secure">
+                    <i class="fa fa-lock"></i> Transaksi Anda aman dan terenkripsi
                 </div>
             </div>
             
-            <div class="payment-method">
-                <div class="payment-title">
-                    <i class="fas fa-qrcode qris"></i>
-                    <h2>QRIS</h2>
+            <div class="right-panel">
+                <h2 class="section-title">Detail Pesanan</h2>
+                
+                <div class="product">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/80" alt="Produk">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">Premium Smartwatch Series 5</div>
+                        <div class="product-desc">Warna: Hitam | Size: 42mm</div>
+                        <div class="product-price">Rp 1.499.000</div>
+                    </div>
                 </div>
-                <div class="payment-content">
-                    <div class="payment-info">
-                        <h3>Scan QR Code</h3>
-                        <div class="instructions">
-                            <p>1. Buka aplikasi e-wallet atau mobile banking Anda</p>
-                            <p>2. Pilih fitur scan QRIS</p>
-                            <p>3. Arahkan kamera ke QR code di samping</p>
-                            <p>4. Masukkan nominal dan konfirmasi pembayaran</p>
-                        </div>
+                
+                <div class="product">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/80" alt="Produk">
                     </div>
-                    <div class="payment-image">
-                        <div class="qris-image">
-                            <img src="https://files.catbox.moe/oi12il.bin" alt="QRIS Payment" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://payment.example.com/085795269956'">
-                        </div>
+                    <div class="product-info">
+                        <div class="product-title">Wireless Charging Pad</div>
+                        <div class="product-desc">Fast Charging 15W</div>
+                        <div class="product-price">Rp 349.000</div>
                     </div>
+                </div>
+                
+                <h2 class="section-title" style="margin-top: 30px;">Ringkasan Pembayaran</h2>
+                
+                <div class="summary-item">
+                    <div>Subtotal</div>
+                    <div>Rp 1.848.000</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div>Pengiriman</div>
+                    <div>Rp 25.000</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div>Pajak</div>
+                    <div>Rp 92.400</div>
+                </div>
+                
+                <div class="total">
+                    <div>Total</div>
+                    <div>Rp 1.965.400</div>
                 </div>
             </div>
         </div>
-        
-        <div class="footer">
-            <p>&copy; 2023 Payment Gateway. Semua hak dilindungi.</p>
-        </div>
-    </div>
-    
-    <div class="notification" id="notification">
-        Nomor berhasil disalin ke clipboard!
     </div>
 
     <script>
-        function copyToClipboard(text, method) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            
-            const notification = document.getElementById('notification');
-            notification.textContent = `Nomor ${method} berhasil disalin!`;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+        // Payment method selection
+        const paymentMethods = document.querySelectorAll('.payment-method');
         
-        // Fallback untuk gambar QRIS jika link tidak bekerja
-        document.querySelector('.qris-image img').onerror = function() {
-            this.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://payment.example.com/085795269956';
-        };
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', () => {
+                paymentMethods.forEach(m => m.classList.remove('active'));
+                method.classList.add('active');
+            });
+        });
+        
+        // Format card number input
+        const cardNumberInput = document.getElementById('card-number');
+        
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            let formattedValue = '';
+            
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            
+            e.target.value = formattedValue;
+        });
+        
+        // Format expiry date input
+        const expiryInput = document.getElementById('expiry');
+        
+        expiryInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.length > 2) {
+                e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            } else {
+                e.target.value = value;
+            }
+        });
+        
+        // Pay button functionality
+        const payButton = document.getElementById('pay-button');
+        
+        payButton.addEventListener('click', function() {
+            alert('Pembayaran sedang diproses...');
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                alert('Pembayaran berhasil! Terima kasih telah berbelanja.');
+            }, 2000);
+        });
     </script>
 </body>
 </html>
