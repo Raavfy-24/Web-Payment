@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe | Game Seru</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .status {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            font-weight: 500;
+            height: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+
+        .cell {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .cell.x {
+            color: #ff6b6b;
+        }
+
+        .cell.o {
+            color: #48dbfb;
+        }
+
+        .reset-btn {
+            background: linear-gradient(to right, #ff6b6b, #ff9ff3);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .reset-btn:active {
+            transform: translateY(1px);
+        }
+
+        .win {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            font-weight: 700;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .score {
+            text-align: center;
+        }
+
+        .score-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .cell {
+                height: 80px;
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tic Tac Toe</h1>
+        
+        <div class="status" id="status">Giliran: X</div>
+        
+        <div class="board" id="board">
+            <div class="cell" data-cell-index="0"></div>
+            <div class="cell" data-cell-index="1"></div>
+            <div class="cell" data-cell-index="2"></div>
+            <div class="cell" data-cell-index="3"></div>
+            <div class="cell" data-cell-index="4"></div>
+            <div class="cell" data-cell-index="5"></div>
+            <div class="cell" data-cell-index="6"></div>
+            <div class="cell" data-cell-index="7"></div>
+            <div class="cell" data-cell-index="8"></div>
+        </div>
+        
+        <button class="reset-btn" id="resetBtn">Main Lagi</button>
+        
+        <div class="score-board">
+            <div class="score">
+                <div>Pemain X</div>
+                <div class="score-value" id="scoreX">0</div>
+            </div>
+            <div class="score">
+                <div>Seri</div>
+                <div class="score-value" id="scoreDraw">0</div>
+            </div>
+            <div class="score">
+                <div>Pemain O</div>
+                <div class="score-value" id="scoreO">0</div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        Dibuat oleh Raavfy untuk seru-seruan 🤩
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elemen DOM
+            const statusDisplay = document.getElementById('status');
+            const cells = document.querySelectorAll('.cell');
+            const resetButton = document.getElementById('resetBtn');
+            const scoreX = document.getElementById('scoreX');
+            const scoreO = document.getElementById('scoreO');
+            const scoreDraw = document.getElementById('scoreDraw');
+            
+            // Variabel game
+            let gameActive = true;
+            let currentPlayer = 'X';
+            let gameState = ['', '', '', '', '', '', '', '', ''];
+            let scores = {
+                X: 0,
+                O: 0,
+                draw: 0
+            };
+            
+            // Pesan status
+            const winningMessage = () => `Pemenang: ${currentPlayer}`;
+            const drawMessage = () => `Permainan seri!`;
+            const currentPlayerTurn = () => `Giliran: ${currentPlayer}`;
+            
+            // Status awal
+            statusDisplay.innerHTML = currentPlayerTurn();
+            
+            // Kondisi menang
+            const winningConditions = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // baris
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // kolom
+                [0, 4, 8], [2, 4, 6]             // diagonal
+            ];
+            
+            // Fungsi untuk menangani klik sel
+            function handleCellClick(clickedCellEvent) {
+                const clickedCell = clickedCellEvent.target;
+                const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
+                
+                // Cek apakah sel sudah terisi atau game tidak aktif
+                if (gameState[clickedCellIndex] !== '' || !gameActive) {
+                    return;
+                }
+                
+                // Proses pemain bermain
+                handleCellPlayed(clickedCell, clickedCellIndex);
+                handleResultValidation();
+            }
+            
+            // Fungsi untuk menangani pemain yang bermain
+            function handleCellPlayed(clickedCell, clickedCellIndex) {
+                gameState[clickedCellIndex] = currentPlayer;
+                clickedCell.innerHTML = currentPlayer;
+                clickedCell.classList.add(currentPlayer.toLowerCase());
+            }
+            
+            // Fungsi untuk validasi hasil
+            function handleResultValidation() {
+                let roundWon = false;
+                for (let i = 0; i < winningConditions.length; i++) {
+                    const winCondition = winningConditions[i];
+                    let a = gameState[winCondition[0]];
+                    let b = gameState[winCondition[1]];
+                    let c = gameState[winCondition[2]];
+                    
+                    if (a === '' || b === '' || c === '') {
+                        continue;
+                    }
+                    
+                    if (a === b && b === c) {
+                        roundWon = true;
+                        break;
+                    }
+                }
+                
+                if (roundWon) {
+                    statusDisplay.innerHTML = winningMessage();
+                    statusDisplay.classList.add('win');
+                    gameActive = false;
+                    
+                    // Update skor
+                    scores[currentPlayer]++;
+                    updateScores();
+                    
+                    return;
+                }
+                
+                // Cek jika seri
+                let roundDraw = !gameState.includes('');
+                if (roundDraw) {
+                    statusDisplay.innerHTML = drawMessage();
+                    gameActive = false;
+                    
+                    // Update skor seri
+                    scores.draw++;
+                    updateScores();
+                    
+                    return;
+                }
+                
+                // Ganti pemain
+                handlePlayerChange();
+            }
+            
+            // Fungsi untuk ganti pemain
+            function handlePlayerChange() {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                statusDisplay.innerHTML = currentPlayerTurn();
+            }
+            
+            // Fungsi untuk mereset game
+            function handleRestartGame() {
+                gameActive = true;
+                currentPlayer = 'X';
+                gameState = ['', '', '', '', '', '', '', '', ''];
+                statusDisplay.innerHTML = currentPlayerTurn();
+                statusDisplay.classList.remove('win');
+                cells.forEach(cell => {
+                    cell.innerHTML = '';
+                    cell.classList.remove('x', 'o');
+                });
+            }
+            
+            // Fungsi untuk update skor
+            function updateScores() {
+                scoreX.textContent = scores.X;
+                scoreO.textContent = scores.O;
+                scoreDraw.textContent = scores.draw;
+            }
+            
+            // Event listeners
+            cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+            resetButton.addEventListener('click', handleRestartGame);
+        });
+    </script>
+</body>
+</html>
